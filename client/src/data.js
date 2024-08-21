@@ -1,31 +1,19 @@
-import { TbCar, TbMotorbike, TbTruckDelivery } from "react-icons/tb";
-import { TbCarSuv } from "react-icons/tb";
-import { IoCarSport } from "react-icons/io5";
+import { TbCar, TbTruckDelivery, TbCarSuv, TbCamper } from "react-icons/tb";
 import { IoCarSportSharp } from "react-icons/io5";
-import { FaCarSide } from "react-icons/fa";
+import { FaCarSide, FaCaravan, FaCarCrash, FaMapMarkedAlt, FaGasPump, FaBluetooth, FaCamera, FaChair, FaEyeSlash, FaWifi, FaTv, FaChargingStation } from "react-icons/fa";
 import { RiMotorbikeFill } from "react-icons/ri";
-import { FaVanShuttle } from "react-icons/fa6";
-import { FaTruckMoving } from "react-icons/fa";
-import {
-  GiCargoCrate,
-  GiSpeedometer,
-  GiTowTruck,
-} from "react-icons/gi";
-import {
-  FaGasPump,
-  FaToolbox,
-  FaChargingStation,
-  FaCarCrash,
-  FaMapMarkedAlt,
-} from "react-icons/fa";
-import { BiSolidCarGarage, BiSolidDoorOpen, BiSolidThermometer } from "react-icons/bi";
-import { MdAirlineSeatReclineNormal, MdOutlineAirlineSeatLegroomNormal, MdPets } from "react-icons/md";
-import {
-  PiSnowflakeFill,
-  PiGpsFill,
-} from "react-icons/pi";
-import { AiFillCar, AiOutlineKey } from "react-icons/ai";
+import { LuCar } from "react-icons/lu";
+import { GiRaceCar, GiScooter, GiSpeedometer, GiCarDoor, GiTowTruck } from "react-icons/gi";
+import { CgViewMonth } from "react-icons/cg";
+import { MdDateRange, MdElectricCar, MdAirlineSeatReclineNormal, MdPets } from "react-icons/md";
+import { CiCalendarDate } from "react-icons/ci";
+import { BsBicycle, BsCalendar2Month } from "react-icons/bs";
+import { BiSolidThermometer, BiSolidDoorOpen } from "react-icons/bi";
+import { PiGpsFill, PiSnowflakeFill, PiVanDuotone } from "react-icons/pi";
+import { AiOutlineKey } from "react-icons/ai";
+import { LiaCarSideSolid } from "react-icons/lia";
 
+// Vehicle Categories
 export const categories = [
   {
     label: "All Vehicles",
@@ -40,7 +28,7 @@ export const categories = [
   {
     img: "/assets/Suv Background.jpg",
     label: "SUVs",
-    icon: <TbCarSuv />, 
+    icon: <LuCar />,
     description: "Spacious vehicles suitable for all terrains.",
   },
   {
@@ -57,14 +45,14 @@ export const categories = [
   },
   {
     img: "/assets/Ev Background.webp",
-    label: "Electric Vehicles",
-    icon: <FaChargingStation />,
+    label: "Electric",
+    icon: <MdElectricCar />,
     description: "Environmentally friendly electric cars.",
   },
   {
     img: "path",
     label: "Vans",
-    icon: <FaVanShuttle />,
+    icon: <PiVanDuotone />,
     description: "Spacious vans for group travel or cargo.",
   },
   {
@@ -72,32 +60,76 @@ export const categories = [
     label: "Trucks",
     icon: <TbTruckDelivery />,
     description: "Heavy-duty vehicles for transportation and hauling.",
-  }
+  },
+  {
+    img: "path",
+    label: "Convertibles",
+    icon: <GiRaceCar />,
+    description: "Stylish open-top cars perfect for sunny days.",
+  },
+  {
+    img: "path",
+    label: "Minivans",
+    icon: <FaCaravan />,
+    description: "Ideal for family trips and group travel.",
+  },
+  {
+    img: "path",
+    label: "Coupes",
+    icon: <LiaCarSideSolid />,
+    description: "Compact and sporty two-door cars.",
+  },
+  {
+    img: "path",
+    label: "Off-Road",
+    icon: <TbCarSuv />,
+    description: "Rugged vehicles for off-road adventures.",
+  },
+  {
+    img: "path",
+    label: "Campervans",
+    icon: <TbCamper />,
+    description: "Vehicles equipped with sleeping and cooking facilities for road trips.",
+  },
+  {
+    img: "path",
+    label: "Scooters",
+    icon: <GiScooter />,
+    description: "Lightweight, fuel-efficient two-wheelers for quick city trips.",
+  },
+  {
+    img: "path",
+    label: "Bicycles",
+    icon: <BsBicycle />,
+    description: "Eco-friendly bikes for urban commuting or leisure rides.",
+  },
 ];
 
+// Rental Types
 export const types = [
   {
     name: "Daily Rental",
     description: "Rent a vehicle for a day or two.",
-    icon: <FaToolbox />,
+    icon: <CiCalendarDate />,
   },
   {
     name: "Weekly Rental",
     description: "Rent a vehicle for a week or more.",
-    icon: <GiSpeedometer />,
+    icon: <MdDateRange />,
   },
   {
     name: "Monthly Rental",
     description: "Rent a vehicle for an extended period.",
-    icon: <BiSolidCarGarage />,
+    icon: <BsCalendar2Month />,
   },
   {
     name: "Long-Term Lease",
     description: "Lease a vehicle for several months or a year.",
-    icon: <AiOutlineKey />,
+    icon: <CgViewMonth />,
   },
 ];
 
+// Vehicle Facilities
 export const facilities = [
   {
     name: "Air Conditioning",
@@ -146,5 +178,77 @@ export const facilities = [
   {
     name: "Free Cancellation",
     icon: <AiOutlineKey />,
+  },
+  {
+    name: "Bluetooth Connectivity",
+    icon: <FaBluetooth />,
+  },
+  {
+    name: "Backup Camera",
+    icon: <FaCamera />,
+  },
+  {
+    name: "Heated Seats",
+    icon: <FaChair />,
+  },
+  {
+    name: "Sunroof",
+    icon: <GiCarDoor />,
+  },
+  {
+    name: "Blind Spot Monitor",
+    icon: <FaEyeSlash />,
+  },
+  {
+    name: "Wi-Fi Hotspot",
+    icon: <FaWifi />,
+  },
+  {
+    name: "Entertainment System",
+    icon: <FaTv />,
+  },
+  {
+    name: "Electric Vehicle",
+    icon: <FaChargingStation />,
+  },
+  {
+    name: "Dashcam",
+    icon: <FaCamera />,
+  },
+  {
+    name: "Remote Start",
+    icon: <AiOutlineKey />,
+  },
+  {
+    name: "Adaptive Cruise Control",
+    icon: <GiSpeedometer />,
+  },
+  {
+    name: "Lane Departure Warning",
+    icon: <FaEyeSlash />,
+  },
+  {
+    name: "Keyless Entry",
+    icon: <AiOutlineKey />,
+  },
+  {
+    name: "360-Degree Camera",
+    icon: <FaCamera />,
+  },
+  {
+    name: "Premium Audio System",
+    icon: <FaTv />,
+  },
+  {
+    name: "Massage Seats",
+    icon: <FaChair />,
+  },
+  {
+    name: "Tinted Windows",
+    icon: <FaEyeSlash />,
+  },
+  {
+    name: "Wireless Charging",
+    icon: <FaChargingStation />,
   },
 ];

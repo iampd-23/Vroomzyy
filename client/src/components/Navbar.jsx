@@ -36,7 +36,7 @@ const Navbar = () => {
         <IconButton disabled={search === ""}>
           <Search
             sx={{ color: variables.pinkred }}
-            onClick={() => {navigate(`/properties/search/${search}`)}}
+            onClick={() => {navigate(`/vehicles/search/${search}`)}}
           />
         </IconButton>
       </div>
@@ -82,8 +82,8 @@ const Navbar = () => {
           <div className="navbar_right_accountmenu">
             <Link to={`/${user._id}/trips`}>Trip List</Link>
             <Link to={`/${user._id}/wishList`}>Wish List</Link>
-            <Link to={`/${user._id}/properties`}>Property List</Link>
-            <Link to={`/${user._id}/reservations`}>Reservation List</Link>
+            <Link to={`/${user._id}/vehicles`}>Vehicle List</Link>
+            <Link to={`/${user._id}/bookings`}>Booking List</Link>
             <Link to="/create-listing">Become A Host</Link>
 
             <Link
