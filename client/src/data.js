@@ -153,7 +153,7 @@ export const facilities = [
   },
   {
     name: "Parking Assistance",
-    icon: <BiSolidDoorOpen />,
+    icon: <GiCarDoor />,
   },
   {
     name: "Roadside Assistance",
@@ -193,11 +193,11 @@ export const facilities = [
   },
   {
     name: "Sunroof",
-    icon: <GiCarDoor />,
+    icon: <LiaCarSideSolid />, 
   },
   {
     name: "Blind Spot Monitor",
-    icon: <FaEyeSlash />,
+    icon: <BiSolidDoorOpen />,  
   },
   {
     name: "Wi-Fi Hotspot",
@@ -209,7 +209,7 @@ export const facilities = [
   },
   {
     name: "Electric Vehicle",
-    icon: <FaChargingStation />,
+    icon: <MdElectricCar />,  
   },
   {
     name: "Dashcam",
@@ -229,23 +229,23 @@ export const facilities = [
   },
   {
     name: "Keyless Entry",
-    icon: <AiOutlineKey />,
+    icon: <BiSolidDoorOpen />,  
   },
   {
     name: "360-Degree Camera",
-    icon: <FaCamera />,
+    icon: <PiGpsFill />,  
   },
   {
     name: "Premium Audio System",
-    icon: <FaTv />,
+    icon: <GiScooter />,  
   },
   {
     name: "Massage Seats",
-    icon: <FaChair />,
+    icon: <MdAirlineSeatReclineNormal />,  
   },
   {
     name: "Tinted Windows",
-    icon: <FaEyeSlash />,
+    icon: <GiCarDoor />,  
   },
   {
     name: "Wireless Charging",

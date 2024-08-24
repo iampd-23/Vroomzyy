@@ -2,7 +2,7 @@ import React from "react";
 import "../styles/CreateListing.scss";
 import Navbar from "../components/Navbar";
 import { categories, types, facilities } from "../data";
-import { RemoveCircleOutline, AddCircleOutline } from "@mui/icons-material";
+import { RemoveCircleOutline, AddCircleOutline, Description } from "@mui/icons-material";
 import variables from "../styles/variables.scss";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { IoIosImages } from "react-icons/io";
@@ -70,6 +70,24 @@ const CreateListing = () => {
     setPhotos((prevPhotos) => prevPhotos.filter((_, i) => i !== index));
   };
 
+  /* DESCRIPTION */
+  const [formDescription, setFormDescription] = useState({
+    title: "",
+    description: "",
+    highlight: "",
+    highlightDesc: "",
+    price: 0,
+  });
+
+  const handleChangeDescription = (e) => {
+    const { name, value } = e.target;
+    setFormDescription({
+      ...formDescription,
+      [name]: value,
+    });
+  };
+  // console.log(formDescription)
+
   return (
     <>
       <Navbar />
@@ -88,7 +106,9 @@ const CreateListing = () => {
                     category === item.label ? "selected" : ""
                   }`}
                   key={index}
-                  onClick={() => setCategory(item.label)}
+                  onClick={() =>
+                    setCategory(category === item.label ? null : item.label)
+                  }
                 >
                   <div className="category-icon">{item.icon}</div>
                   <p>{item.label}</p>
@@ -393,13 +413,15 @@ const CreateListing = () => {
             <h3>Vehicle Specifications & Pricing Overview</h3>
             <div className="description">
               <p>Title</p>
-              <input type="text" placeholder="Title" name="title" required />
+              <input type="text" placeholder="Title" name="title" value={formDescription.title} onChange={handleChangeDescription} required />
 
               <p>Description</p>
               <textarea
                 type="text"
                 placeholder="Description"
                 name="description"
+                value={formDescription.description}
+                onChange={handleChangeDescription}
                 required
               />
 
@@ -408,6 +430,8 @@ const CreateListing = () => {
                 type="text"
                 placeholder="Highlight"
                 name="highlight"
+                value={formDescription.highlight}
+                onChange={handleChangeDescription}
                 required
               />
 
@@ -416,6 +440,8 @@ const CreateListing = () => {
                 type="text"
                 placeholder="Highlight details"
                 name="highlightDesc"
+                value={formDescription.highlightDesc}
+                onChange={handleChangeDescription}
                 required
               />
 
@@ -426,6 +452,8 @@ const CreateListing = () => {
                 placeholder="1000"
                 name="price"
                 className="price"
+                value={formDescription.price}
+                onChange={handleChangeDescription}
                 required
               />
             </div>
