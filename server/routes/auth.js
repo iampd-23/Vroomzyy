@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const multer = require("multer");
 
-const User = require("../models/User");
+const User = require("../models/user");
 
 /* Configuration Multer for File Upload */
 const storage = multer.diskStorage({
