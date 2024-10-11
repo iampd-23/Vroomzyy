@@ -7,6 +7,7 @@
   justify-content: space-between;
   align-items: center;
   position: relative;
+  background-color:whitesmoke;//
 
   @include sm {
     padding: 10px 20px;
@@ -25,10 +26,12 @@
     display: flex;
     gap: 40px;
     align-items: center;
+    background-color:whitesmoke;//
 
     input {
       border: none;
       outline: none;
+      background-color:whitesmoke;//
     }
 
     &:hover {
@@ -49,6 +52,7 @@
       text-decoration: none;
       color: $blue;
       font-weight: 700;
+      font-size: 25px; //
       cursor: pointer;
 
       &:hover {

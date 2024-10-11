@@ -1,13 +1,15 @@
-import React from "react";
+/* global google */ // This tells ESLint that `google` is a global variable
 import "../styles/CreateListing.scss";
 import Navbar from "../components/Navbar";
 import { categories, types, facilities } from "../data";
-import { RemoveCircleOutline, AddCircleOutline, Description } from "@mui/icons-material";
+import { RemoveCircleOutline, AddCircleOutline } from "@mui/icons-material";
 import variables from "../styles/variables.scss";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { IoIosImages } from "react-icons/io";
-import { useState } from "react";
+import { useState, useEffect } from "react"; // Import useEffect from React
 import { BiTrash } from "react-icons/bi";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const CreateListing = () => {
   const [category, setCategory] = useState("");
@@ -72,10 +74,10 @@ const CreateListing = () => {
 
   /* DESCRIPTION */
   const [formDescription, setFormDescription] = useState({
-    title: "",
-    description: "",
-    highlight: "",
-    highlightDesc: "",
+    // title: "",
+    // description: "",
+    // highlight: "",
+    // highlightDesc: "",
     price: 0,
   });
 
@@ -87,6 +89,155 @@ const CreateListing = () => {
     });
   };
   // console.log(formDescription)
+  // console.log(amenities)
+
+  const creatorId = useSelector((state) => state.user?._id);
+  const navigate = useNavigate();
+
+  const handlePost = async (e) => {
+    e.preventDefault();
+
+    // if (!creatorId) {
+    //   // Handle the case where creatorId is not available
+    //   console.log("User is not authenticated or creatorId is missing.");
+    //   return;
+    // }
+
+    try {
+      /* Create a new FormData object to handle file uploads */
+      const listingForm = new FormData();
+      listingForm.append("creator", creatorId);
+      listingForm.append("category", category);
+      listingForm.append("type", type);
+      listingForm.append("streetAddress", formLocation.streetAddress);
+      listingForm.append("aptSuite", formLocation.aptSuite);
+      listingForm.append("city", formLocation.city);
+      listingForm.append("province", formLocation.province);
+      listingForm.append("country", formLocation.country);
+      listingForm.append("seatCount", seatCount);
+      listingForm.append("doorsCount", doorsCount);
+      listingForm.append("fuelCount", fuelCount);
+      listingForm.append("luggageCount", luggageCount);
+      listingForm.append("amenities", amenities);
+      // listingForm.append("title", formDescription.title);
+      // listingForm.append("description", formDescription.description);
+      // listingForm.append("highlight", formDescription.highlight);
+      // listingForm.append("highlightDesc", formDescription.highlightDesc);
+      listingForm.append("ownerName", formOwnerDetails.ownerName);
+      listingForm.append("vehicleNumber", formOwnerDetails.vehicleNumber);
+      listingForm.append("price", formDescription.price);
+
+      /* Append each selected photo to the FormData object */
+      photos.forEach((photo) => {
+        listingForm.append("listingPhotos", photo);
+      });
+      if (formOwnerDetails.vehicleImage) {
+        listingForm.append("vehicleImage", formOwnerDetails.vehicleImage);
+      }
+
+      /* Send a POST request to server */
+      const response = await fetch("http://localhost:2305/vehicles/create", {
+        method: "POST",
+        body: listingForm,
+      });
+
+      if (response.ok) {
+        navigate("/");
+      } else {
+        console.log("Failed to create listing. Status:", response.status);
+      }
+    } catch (err) {
+      console.log("Publish Listing failed", err.message);
+    }
+  };
+
+  const [formOwnerDetails, setFormOwnerDetails] = useState({
+    ownerName: "",
+    vehicleNumber: "",
+    vehicleImage: null, // For file upload
+  });
+  const handleChangeOwnerDetails = (e) => {
+    const { name, value, type, files } = e.target;
+    setFormOwnerDetails({
+      ...formOwnerDetails,
+      [name]: type === "file" ? files[0] : value,
+    });
+  };
+  // console.log(formOwnerDetails);
+
+
+  useEffect(() => {
+    const initMap = () => {
+      const map = new google.maps.Map(document.getElementById("map"), {
+        center: { lat: 20.5937, lng: 78.9629 }, // Default India coordinates
+        zoom: 5, // Default zoom level
+      });
+  
+      const geocoder = new google.maps.Geocoder();
+      const marker = new google.maps.Marker({
+        map: map,
+        draggable: true,
+      });
+  
+      google.maps.event.addListener(map, "click", function (event) {
+        marker.setPosition(event.latLng);
+        geocodeLatLng(geocoder, map, event.latLng);
+      });
+  
+      // Save map instance and marker for later use
+      window.map = map;
+      window.marker = marker;
+    };
+  
+    const geocodeLatLng = (geocoder, map, latLng) => {
+      geocoder.geocode({ location: latLng }, function (results, status) {
+        if (status === "OK") {
+          if (results[0]) {
+            setFormLocation((prev) => ({
+              ...prev,
+              streetAddress: results[0].formatted_address,
+            }));
+          } else {
+            alert("No results found");
+          }
+        } else {
+          alert("Geocoder failed due to: " + status);
+        }
+      });
+    };
+  
+    if (window.google) {
+      initMap(); // Initialize map
+    }
+  }, []);
+  
+  // Function to geocode an address and update the map
+  const geocodeAddress = (geocoder, address) => {
+    geocoder.geocode({ address: address }, (results, status) => {
+      if (status === "OK") {
+        const location = results[0].geometry.location;
+        window.map.setCenter(location); // Recenter the map
+        window.marker.setPosition(location); // Move marker to new location
+      } else {
+        console.error("Geocode failed: " + status);
+      }
+    });
+  };
+  
+  // Update `handleChangeLocation` to geocode the address when inputs change
+  const handleChangeLocationn = (e) => {
+    const { name, value } = e.target;
+    setFormLocation({
+      ...formLocation,
+      [name]: value,
+    });
+  
+    const fullAddress = `${formLocation.streetAddress}, ${formLocation.city}, ${formLocation.province}, ${formLocation.country}`;
+    
+    // Geocode the full address when any field changes
+    const geocoder = new google.maps.Geocoder();
+    geocodeAddress(geocoder, fullAddress);
+  };
 
   return (
     <>
@@ -94,7 +245,7 @@ const CreateListing = () => {
 
       <div className="create-listing">
         <h1>Publish Your Vehicle</h1>
-        <form>
+        <form onSubmit={handlePost}>
           <div className="create-listing_step1">
             <h2>Step 1: Tell us about your Vehicle</h2>
             <hr />
@@ -133,7 +284,7 @@ const CreateListing = () => {
               ))}
             </div>
 
-            <h3>Where is your vehicle located?</h3>
+            {/* <h3>Where is your vehicle located?</h3>
             <div className="full">
               <div className="location">
                 <p>Street Address</p>
@@ -198,7 +349,76 @@ const CreateListing = () => {
                   required
                 />
               </div>
+            </div> */}
+            <h3>Where is your vehicle located?</h3>
+            <div className="full">
+              <div className="location">
+                <p>Street Address</p>
+                <input
+                  type="text"
+                  placeholder="Street Address"
+                  name="streetAddress"
+                  value={formLocation.streetAddress}
+                  onChange={handleChangeLocation}
+                  required
+                />
+              </div>
             </div>
+
+            <div className="half">
+              <div className="location">
+                <p>Apartment, Society, etc.</p>
+                <input
+                  type="text"
+                  placeholder="Apartment, Society, etc."
+                  name="aptSuite"
+                  value={formLocation.aptSuite}
+                  onChange={handleChangeLocation}
+                  required
+                />
+              </div>
+
+              <div className="location">
+                <p>City</p>
+                <input
+                  type="text"
+                  placeholder="City"
+                  name="city"
+                  value={formLocation.city}
+                  onChange={handleChangeLocationn}
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="half">
+              <div className="location">
+                <p>State</p>
+                <input
+                  type="text"
+                  placeholder="State"
+                  name="province"
+                  value={formLocation.province}
+                  onChange={handleChangeLocationn}
+                  required
+                />
+              </div>
+
+              <div className="location">
+                <p>Country</p>
+                <input
+                  type="text"
+                  placeholder="Country"
+                  name="country"
+                  value={formLocation.country}
+                  onChange={handleChangeLocation}
+                  required
+                />
+              </div>
+            </div>
+
+            {/* <!-- New map container --> */}
+            <div id="map" style={{ height: "400px", width: "100%" }}></div>
 
             <h3>Share some basics about your vehicle</h3>
             <div className="basics">
@@ -410,10 +630,17 @@ const CreateListing = () => {
               </Droppable>
             </DragDropContext>
 
-            <h3>Vehicle Specifications & Pricing Overview</h3>
+            <h3>Pricing Overview</h3>
             <div className="description">
-              <p>Title</p>
-              <input type="text" placeholder="Title" name="title" value={formDescription.title} onChange={handleChangeDescription} required />
+              {/* <p>Title</p>
+              <input
+                type="text"
+                placeholder="Title"
+                name="title"
+                value={formDescription.title}
+                onChange={handleChangeDescription}
+                required
+              />
 
               <p>Description</p>
               <textarea
@@ -443,7 +670,7 @@ const CreateListing = () => {
                 value={formDescription.highlightDesc}
                 onChange={handleChangeDescription}
                 required
-              />
+              /> */}
 
               <p>Now, Set your price</p>
               <span>₹</span>
@@ -458,6 +685,42 @@ const CreateListing = () => {
               />
             </div>
           </div>
+
+          <div className="create-listing_step2">
+            <h2>Step 3: Enter Your Details</h2>
+            <div className="description">
+              <p>Full Name</p>
+              <input
+                type="text"
+                placeholder="Name"
+                name="ownerName"
+                value={formOwnerDetails.ownerName}
+                onChange={handleChangeOwnerDetails}
+                required
+              />
+              <p>Enter Your Vehicle Number</p>
+              <input
+                type="text"
+                placeholder="Eg. MH01BC1234"
+                name="vehicleNumber"
+                value={formOwnerDetails.vehicleNumber}
+                onChange={handleChangeOwnerDetails}
+                required
+              />
+              <p>Upload Your Vehicle RC (Registration Certificate)</p>
+              <input
+                type="file"
+                accept="image/*"
+                name="vehicleImage"
+                onChange={handleChangeOwnerDetails}
+                required
+              />
+            </div>
+          </div>
+
+          <button type="submit" className="submit_btn">
+            PUBLISH YOU VEHICLE
+          </button>
         </form>
       </div>
     </>

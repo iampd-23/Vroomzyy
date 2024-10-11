@@ -44,11 +44,11 @@ const Navbar = () => {
       <div className="navbar_right">
         {user ? (
           <a href="/create-listing" className="host">
-            Become A Host
+            Host Vehicle
           </a>
         ) : (
           <a href="/login" className="host">
-            Become A Host
+            Host Vehicle
           </a>
         )}
 
@@ -84,7 +84,7 @@ const Navbar = () => {
             <Link to={`/${user._id}/wishList`}>Wish List</Link>
             <Link to={`/${user._id}/vehicles`}>Vehicle List</Link>
             <Link to={`/${user._id}/bookings`}>Booking List</Link>
-            <Link to="/create-listing">Become A Host</Link>
+            <Link to="/create-listing">Host Vehicle</Link>
 
             <Link
               to="/login"

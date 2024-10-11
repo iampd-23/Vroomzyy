@@ -5,6 +5,7 @@ const cors = require('cors');
 
 const app = express();
 const authRoutes = require('../server/routes/auth.js')
+const listingRoutes = require('../server/routes/listing.js')
 
 
 // Middleware Setup
@@ -14,6 +15,7 @@ app.use(express.static('public')); // Serve static files from public directory
 
 // Route use
 app.use("/auth",authRoutes)
+app.use("/vehicles",listingRoutes)
 
 
 // Mongoose Setup
