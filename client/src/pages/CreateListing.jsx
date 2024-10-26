@@ -165,30 +165,29 @@ const CreateListing = () => {
   };
   // console.log(formOwnerDetails);
 
-
   useEffect(() => {
     const initMap = () => {
       const map = new google.maps.Map(document.getElementById("map"), {
         center: { lat: 20.5937, lng: 78.9629 }, // Default India coordinates
         zoom: 5, // Default zoom level
       });
-  
+
       const geocoder = new google.maps.Geocoder();
       const marker = new google.maps.Marker({
         map: map,
         draggable: true,
       });
-  
+
       google.maps.event.addListener(map, "click", function (event) {
         marker.setPosition(event.latLng);
         geocodeLatLng(geocoder, map, event.latLng);
       });
-  
+
       // Save map instance and marker for later use
       window.map = map;
       window.marker = marker;
     };
-  
+
     const geocodeLatLng = (geocoder, map, latLng) => {
       geocoder.geocode({ location: latLng }, function (results, status) {
         if (status === "OK") {
@@ -205,12 +204,12 @@ const CreateListing = () => {
         }
       });
     };
-  
+
     if (window.google) {
       initMap(); // Initialize map
     }
   }, []);
-  
+
   // Function to geocode an address and update the map
   const geocodeAddress = (geocoder, address) => {
     geocoder.geocode({ address: address }, (results, status) => {
@@ -223,7 +222,7 @@ const CreateListing = () => {
       }
     });
   };
-  
+
   // Update `handleChangeLocation` to geocode the address when inputs change
   const handleChangeLocationn = (e) => {
     const { name, value } = e.target;
@@ -231,12 +230,44 @@ const CreateListing = () => {
       ...formLocation,
       [name]: value,
     });
-  
+
     const fullAddress = `${formLocation.streetAddress}, ${formLocation.city}, ${formLocation.province}, ${formLocation.country}`;
-    
+
     // Geocode the full address when any field changes
     const geocoder = new google.maps.Geocoder();
     geocodeAddress(geocoder, fullAddress);
+  };
+
+  //Rc Validation
+
+  //1
+  const [rcValidation, setRcValidation] = useState({ status: "", message: "" });
+  //2
+  const handleRcValidation = async (e) => {
+    const file = e.target.files[0];
+    setFormOwnerDetails({ ...formOwnerDetails, vehicleImage: file });
+
+    // Create a form data object to send to the backend
+    const formData = new FormData();
+    formData.append("vehicleImage", file);
+
+    try {
+      // Call the backend API to validate the RC photo
+      const response = await fetch("http://localhost:2305/api/upload-rc", {
+        method: "POST",
+        body: formData,
+      });
+      const result = await response.json();
+
+      // Update state with validation result
+      setRcValidation({ status: result.status, message: result.message });
+    } catch (error) {
+      console.error("Error validating RC photo:", error);
+      setRcValidation({
+        status: "error",
+        message: "Unable to validate RC photo",
+      });
+    }
   };
 
   return (
@@ -712,9 +743,21 @@ const CreateListing = () => {
                 type="file"
                 accept="image/*"
                 name="vehicleImage"
-                onChange={handleChangeOwnerDetails}
+                onChange={handleRcValidation} 
                 required
               />
+              {/* Display validation feedback */}
+              {rcValidation.status && (
+                <p
+                  className={`validation-${rcValidation.status}`}
+                  style={{
+                    color: rcValidation.status === "green" ? "green" : "red",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {rcValidation.message}
+                </p>
+              )}
             </div>
           </div>
 
