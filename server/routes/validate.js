@@ -43,8 +43,8 @@ router.post("/upload-rc", upload.single("vehicleImage"), async (req, res) => {
     console.log("Extracted Text:", text);
 
     const extractedNumber = handleExtractedNumber(text);
-    console.log("Extracted Number:", extractedNumber);
-    console.log("Exists in Dataset:", vehicleNumbersDataset.has(extractedNumber));
+    // console.log("Extracted Number:", extractedNumber);
+    // console.log("Exists in Dataset:", vehicleNumbersDataset.has(extractedNumber));
 
     fs.unlinkSync(imagePath);
 

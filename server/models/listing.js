@@ -55,6 +55,19 @@ const ListingSchema = new mongoose.Schema(
       default: [],
     },
     listingPhotoPaths: [{ type: String }],
+
+    title: {
+      type: String,
+      required: true
+    },
+    description: {
+      type: String,
+      required: true
+    },
+    highlight: {
+      type: String,
+      required: true
+    },
     
     // Adding new fields
     ownerName: {
@@ -69,7 +82,6 @@ const ListingSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-
     price: {
       type: Number,
       required: true,

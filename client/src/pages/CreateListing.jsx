@@ -74,9 +74,9 @@ const CreateListing = () => {
 
   /* DESCRIPTION */
   const [formDescription, setFormDescription] = useState({
-    // title: "",
-    // description: "",
-    // highlight: "",
+    title: "",
+    description: "",
+    highlight: "",
     // highlightDesc: "",
     price: 0,
   });
@@ -119,9 +119,9 @@ const CreateListing = () => {
       listingForm.append("fuelCount", fuelCount);
       listingForm.append("luggageCount", luggageCount);
       listingForm.append("amenities", amenities);
-      // listingForm.append("title", formDescription.title);
-      // listingForm.append("description", formDescription.description);
-      // listingForm.append("highlight", formDescription.highlight);
+      listingForm.append("title", formDescription.title);
+      listingForm.append("description", formDescription.description);
+      listingForm.append("highlight", formDescription.highlight);
       // listingForm.append("highlightDesc", formDescription.highlightDesc);
       listingForm.append("ownerName", formOwnerDetails.ownerName);
       listingForm.append("vehicleNumber", formOwnerDetails.vehicleNumber);
@@ -661,9 +661,9 @@ const CreateListing = () => {
               </Droppable>
             </DragDropContext>
 
-            <h3>Pricing Overview</h3>
+            
             <div className="description">
-              {/* <p>Title</p>
+              <p>Title</p>
               <input
                 type="text"
                 placeholder="Title"
@@ -672,8 +672,7 @@ const CreateListing = () => {
                 onChange={handleChangeDescription}
                 required
               />
-
-              <p>Description</p>
+              <p>Detailed Description of the Vehicle</p>
               <textarea
                 type="text"
                 placeholder="Description"
@@ -682,7 +681,6 @@ const CreateListing = () => {
                 onChange={handleChangeDescription}
                 required
               />
-
               <p>Highlight</p>
               <input
                 type="text"
@@ -692,8 +690,7 @@ const CreateListing = () => {
                 onChange={handleChangeDescription}
                 required
               />
-
-              <p>Highlight details</p>
+              {/* <p>Highlight details</p>
               <textarea
                 type="text"
                 placeholder="Highlight details"
@@ -702,7 +699,7 @@ const CreateListing = () => {
                 onChange={handleChangeDescription}
                 required
               /> */}
-
+              <h3>Pricing Overview</h3>
               <p>Now, Set your price</p>
               <span>₹</span>
               <input
@@ -743,7 +740,7 @@ const CreateListing = () => {
                 type="file"
                 accept="image/*"
                 name="vehicleImage"
-                onChange={handleRcValidation} 
+                onChange={handleRcValidation}
                 required
               />
               {/* Display validation feedback */}

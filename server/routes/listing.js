@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
     }
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + '-' + file.originalname); // Use a unique file name to avoid conflicts
+    cb(null, Date.now() + "-" + file.originalname); // Use a unique file name to avoid conflicts
   },
 });
 
@@ -44,18 +44,24 @@ router.post(
         fuelCount,
         luggageCount,
         amenities,
+        title,
+        description,
+        highlight,
         ownerName,
         vehicleNumber,
         price,
       } = req.body;
 
       // Multer saves files in req.files, so we need to access the uploaded files
-      const listingPhotos = req.files['listingPhotos'];
-      const vehicleImage = req.files['vehicleImage'] && req.files['vehicleImage'][0]; // Get the first vehicle image
+      const listingPhotos = req.files["listingPhotos"];
+      const vehicleImage =
+        req.files["vehicleImage"] && req.files["vehicleImage"][0]; // Get the first vehicle image
 
       // If no files are uploaded, return an error
       if (!listingPhotos || !vehicleImage) {
-        return res.status(400).send("Listing photos and vehicle image are required.");
+        return res
+          .status(400)
+          .send("Listing photos and vehicle image are required.");
       }
 
       // Extract the file paths for the listing photos and vehicle image
@@ -77,6 +83,9 @@ router.post(
         fuelCount,
         luggageCount,
         amenities,
+        title,
+        description,
+        highlight,
         listingPhotoPaths, // Save listing photo paths
         ownerName, // Save owner's name
         vehicleNumber, // Save vehicle number
@@ -90,7 +99,9 @@ router.post(
       // Respond with the newly created listing
       res.status(200).json(newListing);
     } catch (err) {
-      res.status(500).json({ message: "Failed to create listing", error: err.message });
+      res
+        .status(500)
+        .json({ message: "Failed to create listing", error: err.message });
       console.log(err);
     }
   }
@@ -103,14 +114,18 @@ router.get("/", async (req, res) => {
   try {
     let listings;
     if (qCategory) {
-      listings = await Listing.find({ category: qCategory }).populate("creator");
+      listings = await Listing.find({ category: qCategory }).populate(
+        "creator"
+      );
     } else {
       listings = await Listing.find().populate("creator");
     }
 
     res.status(200).json(listings);
   } catch (err) {
-    res.status(404).json({ message: "Failed to fetch listings", error: err.message });
+    res
+      .status(404)
+      .json({ message: "Failed to fetch listings", error: err.message });
     console.log(err);
   }
 });
@@ -126,13 +141,18 @@ router.get("/search/:search", async (req, res) => {
       listings = await Listing.find().populate("creator");
     } else {
       listings = await Listing.find({
-        $or: [{ category: { $regex: search, $options: "i" } }, { title: { $regex: search, $options: "i" } }],
+        $or: [
+          { category: { $regex: search, $options: "i" } },
+          { title: { $regex: search, $options: "i" } },
+        ],
       }).populate("creator");
     }
 
     res.status(200).json(listings);
   } catch (err) {
-    res.status(404).json({ message: "Failed to fetch listings", error: err.message });
+    res
+      .status(404)
+      .json({ message: "Failed to fetch listings", error: err.message });
     console.log(err);
   }
 });
@@ -144,7 +164,9 @@ router.get("/:listingId", async (req, res) => {
     const listing = await Listing.findById(listingId).populate("creator");
     res.status(202).json(listing);
   } catch (err) {
-    res.status(404).json({ message: "Listing cannot be found!", error: err.message });
+    res
+      .status(404)
+      .json({ message: "Listing cannot be found!", error: err.message });
   }
 });
 
