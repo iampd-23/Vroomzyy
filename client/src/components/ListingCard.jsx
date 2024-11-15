@@ -45,22 +45,21 @@ const ListingCard = ({
   const user = useSelector((state) => state.user);
   const wishList = user?.wishList || [];
 
-  const isLiked = wishList?.find((item) => item?._id === listingId);
+  const isLiked = wishList?.some((item) => item === listingId || item?._id === listingId);
 
   const patchWishList = async () => {
-    if (user?._id !== creator._id) {
-    const response = await fetch(
-      `http://localhost:2305/users/${user?._id}/${listingId}`,
-      {
-        method: "PATCH",
-        header: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    const data = await response.json();
-    dispatch(setWishList(data.wishList));
-  } else { return }
+      const response = await fetch(
+        `http://localhost:2305/users/${user?._id}/${listingId}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const data = await response.json();
+      dispatch(setWishList(data.wishList));
+    
   };
 
   return (
@@ -113,7 +112,7 @@ const ListingCard = ({
         <>
           <p>{type}</p>
           <p>
-            <span>${price}</span> per day
+            <span>₹{price}</span> per day
           </p>
         </>
       ) : (
@@ -122,7 +121,7 @@ const ListingCard = ({
             {startDate} - {endDate}
           </p>
           <p>
-            <span>${totalPrice}</span> total
+            <span>₹{totalPrice}</span> total
           </p>
         </>
       )}

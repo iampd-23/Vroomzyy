@@ -167,7 +167,7 @@ const ListingDetails = () => {
                 </h2>
               )}
 
-              <h2>Total price: ${listing.price * dayCount}</h2>
+              <h2>Total price: ₹{listing.price * dayCount}</h2>
               <p>Start Date: {dateRange[0].startDate.toLocaleDateString()}</p>
               <p>End Date: {dateRange[0].endDate.toLocaleDateString()}</p>
 
