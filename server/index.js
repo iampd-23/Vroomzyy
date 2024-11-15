@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv').config();
 const cors = require('cors');
+const router = express.Router(); // Initialize the router
 
 const app = express();
 
@@ -10,6 +11,7 @@ const listingRoute = require('../server/routes/listing.js');
 const validateRoute = require('../server/routes/validate.js'); 
 const bookingRoute = require('../server/routes/booking.js');
 const userRoute = require('../server/routes/user.js')
+const emergencyDriverRoutes = require('./routes/emergencyDriver');
 
 // Middleware Setup
 app.use(cors()); // Invoke cors as a function
@@ -22,6 +24,9 @@ app.use("/vehicles", listingRoute);
 app.use("/api", validateRoute);
 app.use("/bookings",bookingRoute);
 app.use("/users",userRoute);
+
+
+app.use('/api/emergencyDriver', emergencyDriverRoutes);
 
 // Mongoose Setup
 const port = 2305;

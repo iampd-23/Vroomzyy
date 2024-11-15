@@ -7,23 +7,17 @@ import "../styles/Navbar.scss";
 import { Link, useNavigate } from "react-router-dom";
 import { setLogout } from "../redux/state";
 
-
 const Navbar = () => {
   const [dropdownMenu, setDropdownMenu] = useState(false);
-
   const user = useSelector((state) => state.user);
-
   const dispatch = useDispatch();
-
-  const [search, setSearch] = useState("")
-
-  const navigate = useNavigate()
+  const [search, setSearch] = useState("");
+  const navigate = useNavigate();
 
   return (
     <div className="navbar">
       <a href="/">
-      <img src="/assets/Favicon Logo.png" alt="logo" />
-
+        <img src="/assets/Favicon Logo.png" alt="logo" />
       </a>
 
       <div className="navbar_search">
@@ -36,20 +30,30 @@ const Navbar = () => {
         <IconButton disabled={search === ""}>
           <Search
             sx={{ color: variables.pinkred }}
-            onClick={() => {navigate(`/vehicles/search/${search}`)}}
+            onClick={() => navigate(`/vehicles/search/${search}`)}
           />
         </IconButton>
       </div>
 
       <div className="navbar_right">
         {user ? (
-          <a href="/create-listing" className="host">
-            Host Vehicle
-          </a>
+          <>
+            <a href="/request-driver" className="host">
+              Emergency Driver
+            </a>
+            <a href="/create-listing" className="host">
+              Host Vehicle
+            </a>
+          </>
         ) : (
-          <a href="/login" className="host">
-            Host Vehicle
-          </a>
+          <>
+            <a href="/login" className="host">
+              Host Vehicle
+            </a>
+            <a href="/login" className="host">
+              Emergency Driver
+            </a>
+          </>
         )}
 
         <button
@@ -85,6 +89,10 @@ const Navbar = () => {
             <Link to={`/${user._id}/vehicles`}>Vehicle List</Link>
             <Link to={`/${user._id}/reservations`}>Booking List</Link>
             <Link to="/create-listing">Host Vehicle</Link>
+
+            {/* New Links for Driver Signup and Request Driver */}
+            <Link to="/driver-signup">Register as Driver</Link>
+            <Link to="/request-driver">Request Emergency Driver</Link>
 
             <Link
               to="/login"

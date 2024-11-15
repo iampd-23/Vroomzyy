@@ -1,0 +1,103 @@
+@import "../styles/variables.scss";
+@import "../styles/breakpoints.scss";
+
+.emergency-driver-request {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; // Full viewport height
+  background-color: $lightgrey;
+  padding: 20px;
+  box-sizing: border-box; // Avoid extra space due to padding
+
+  h1 {
+    color: $blue;
+    font-size: 2.5rem; // Slightly smaller font size to save space
+    text-align: center;
+    margin-bottom: 20px; // Reduced margin below heading
+  }
+
+  &_form {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 700px; // Increased max-width for a wider form
+    height: 75vh; // Set a fixed height for the form to control the scroll area
+    overflow-y: auto; // Only form scrolls if content overflows
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    @include sm {
+      padding: 20px;
+      max-width: 90%;
+      height: 65vh;
+    }
+  }
+
+  &_field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    label {
+      font-weight: 600;
+      color: black;
+      font-size: 0.85rem;
+      padding-bottom: 3px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid $grey;
+      border-radius: 5px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: black;
+
+      &:focus {
+        outline: none;
+        border-color: $pinkred;
+        box-shadow: 0 0 5px rgba(255, 105, 135, 0.3);
+      }
+    }
+  }
+
+  &_submit {
+    padding: 12px;
+    background-color: $pinkred;
+    color: white;
+    font-weight: 700;
+    font-size: 1rem;
+    text-align: center;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+      background-color: darken($pinkred, 10%);
+      box-shadow: 0px 4px 10px rgba(255, 105, 135, 0.3);
+    }
+  }
+}
+
+// Success and Error Message Styling
+.success-message {
+  color: green;
+  font-weight: bold;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.error-message {
+  color: red;
+  font-weight: bold;
+  margin-bottom: 15px;
+  text-align: center;
+}
