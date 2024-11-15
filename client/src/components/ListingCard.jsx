@@ -15,7 +15,7 @@ const ListingCard = ({
   listingPhotoPaths,
   city,
   province,
-  country,
+  // country,
   category,
   type,
   price,

@@ -4,9 +4,12 @@ const dotenv = require('dotenv').config();
 const cors = require('cors');
 
 const app = express();
-const authRoutes = require('../server/routes/auth.js');
-const listingRoutes = require('../server/routes/listing.js');
+
+const authRoute = require('../server/routes/auth.js');
+const listingRoute = require('../server/routes/listing.js');
 const validateRoute = require('../server/routes/validate.js'); 
+const bookingRoute = require('../server/routes/booking.js');
+const userRoute = require('../server/routes/user.js')
 
 // Middleware Setup
 app.use(cors()); // Invoke cors as a function
@@ -14,9 +17,11 @@ app.use(express.json()); // Invoke express.json() as a function
 app.use(express.static('public')); // Serve static files from public directory
 
 // Route use
-app.use("/auth", authRoutes);
-app.use("/vehicles", listingRoutes);
+app.use("/auth", authRoute);
+app.use("/vehicles", listingRoute);
 app.use("/api", validateRoute);
+app.use("/bookings",bookingRoute);
+app.use("/users",userRoute);
 
 // Mongoose Setup
 const port = 2305;
@@ -33,3 +38,5 @@ mongoose.connect(process.env.MONGO_URL, {
 .catch((err) => {
   console.log(err + " did not connect!");
 });
+
+

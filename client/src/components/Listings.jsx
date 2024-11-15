@@ -10,14 +10,14 @@ const Listings = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
 
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedCategory, setSelectedCategory] = useState("All Vehicles");
 
   const listings = useSelector((state) => state.listings);
 
   const getFeedListings = async () => {
     try {
       const response = await fetch(
-        selectedCategory !== "All"
+        selectedCategory !== "All Vehicles"
           ? `http://localhost:2305/vehicles?category=${selectedCategory}`
           : "http://localhost:2305/vehicles",
         {
@@ -37,14 +37,16 @@ const Listings = () => {
     getFeedListings();
   }, [selectedCategory]);
 
-  console.log(listings);
+  // console.log(listings);
 
   return (
     <>
       <div className="category-list">
         {categories?.map((category, index) => (
           <div
-            className={`category ${category.label === selectedCategory ? "selected" : ""}`}
+            className={`category ${
+              category.label === selectedCategory ? "selected" : ""
+            }`}
             key={index}
             onClick={() => setSelectedCategory(category.label)}
           >
@@ -58,7 +60,7 @@ const Listings = () => {
         <Loader />
       ) : (
         <div className="listings">
-          {listings.map(
+          {(Array.isArray(listings) ? listings : []).map( // here i made a change
             ({
               _id,
               creator,
@@ -69,9 +71,10 @@ const Listings = () => {
               category,
               type,
               price,
-              booking=false
+              booking = false,
             }) => (
               <ListingCard
+                key={_id}
                 listingId={_id}
                 creator={creator}
                 listingPhotoPaths={listingPhotoPaths}

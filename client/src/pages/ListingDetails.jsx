@@ -6,7 +6,7 @@ import { facilities } from "../data";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { DateRange } from "react-date-range";
-import { enUS } from 'date-fns/locale'; // Import the locale
+import { enUS } from 'date-fns/locale'; 
 import Loader from "../components/loader";
 import Navbar from "../components/Navbar";
 import { useSelector } from "react-redux";
@@ -63,8 +63,8 @@ const ListingDetails = () => {
         customerId,
         listingId,
         hostId: listing.creator._id,
-        startDate: dateRange[0].startDate.toLocaleDateString(), // Format to locale string
-        endDate: dateRange[0].endDate.toLocaleDateString(),     // Format to locale string
+        startDate: dateRange[0].startDate.toLocaleDateString(), 
+        endDate: dateRange[0].endDate.toLocaleDateString(),
         totalPrice: listing.price * dayCount,
       };
 
