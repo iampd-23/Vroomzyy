@@ -27,6 +27,7 @@ const TripList = () => {
       setLoading(false);
     } catch (err) {
       console.log("Fetch Trip List failed!", err.message);
+      setLoading(false); // Ensure loading is set to false on error
     }
   };
 
@@ -41,21 +42,26 @@ const TripList = () => {
       <Navbar />
       <h1 className="title-list">Your Trip List</h1>
       <div className="list">
-        {tripList?.map(({ listingId, hostId, startDate, endDate, totalPrice, booking=true }) => (
-          <ListingCard
-            listingId={listingId._id}
-            creator={hostId._id}
-            listingPhotoPaths={listingId.listingPhotoPaths}
-            city={listingId.city}
-            province={listingId.province}
-            country={listingId.country}
-            category={listingId.category}
-            startDate={startDate}
-            endDate={endDate}
-            totalPrice={totalPrice}
-            booking={booking}
-          />
-        ))}
+        {tripList?.length > 0 ? (
+          tripList.map(({ listingId, hostId, startDate, endDate, totalPrice, booking = true }) => (
+            <ListingCard
+              key={listingId._id} // Unique key for each item
+              listingId={listingId._id}
+              creator={hostId._id}
+              listingPhotoPaths={listingId.listingPhotoPaths}
+              city={listingId.city}
+              province={listingId.province}
+              country={listingId.country}
+              category={listingId.category}
+              startDate={startDate}
+              endDate={endDate}
+              totalPrice={totalPrice}
+              booking={booking}
+            />
+          ))
+        ) : (
+          <p className="empty-message">You have no trips yet.</p> // Message for empty trip list
+        )}
       </div>
     </>
   );
