@@ -9,6 +9,8 @@ import TripList from './pages/TripList';
 import WishList from './pages/WishList';
 import VehicleList from './pages/VehicleList';
 import ReservationList from './pages/ReservationList';
+import CategoryPage from './pages/CategoryPage';
+import SearchPage from './pages/SearchPage';
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
           <Route path="/login" element={<LoginPage/>} />
           <Route path="/create-listing" element={<CreateListing/>}/>
           <Route path="/vehicles/:listingId" element={<ListingDetails/>}/>
+          <Route path="/vehicles/category/:category" element={<CategoryPage />} />
+          <Route path="/vehicles/search/:search" element={<SearchPage/>} />
           <Route path="/:userId/trips" element={<TripList/>}/>
           <Route path="/:userId/wishList" element={<WishList/>}/>
           <Route path="/:userId/vehicles" element={<VehicleList/>}/>
