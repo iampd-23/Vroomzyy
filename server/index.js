@@ -12,6 +12,7 @@ const validateRoute = require('../server/routes/validate.js');
 const bookingRoute = require('../server/routes/booking.js');
 const userRoute = require('../server/routes/user.js')
 const emergencyDriverRoutes = require('./routes/emergencyDriver');
+// const chatbotRoutes = require("./routes/chatbot"); // Import chatbot route
 
 // Middleware Setup
 app.use(cors()); // Invoke cors as a function
@@ -26,6 +27,7 @@ app.use("/bookings",bookingRoute);
 app.use("/users",userRoute);
 
 app.use('/api/emergencyDriver', emergencyDriverRoutes);
+// app.use("/api", chatbotRoutes); 
 
 // Mongoose Setup
 const port = 2305;

@@ -11,6 +11,7 @@ import VehicleList from "./pages/VehicleList";
 import ReservationList from "./pages/ReservationList";
 import CategoryPage from "./pages/CategoryPage";
 import SearchPage from "./pages/SearchPage";
+// import Chatbot from "./components/Chatbot";
 
 import DriverSignup from "./pages/DriverSignup";
 import EmergencyDriverRequest from "./pages/EmergencyDriverRequest";
@@ -19,6 +20,7 @@ function App() {
   return (
     <div>
       <BrowserRouter>
+        {/* <Chatbot /> */}
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/register" element={<RegisterPage />} />
