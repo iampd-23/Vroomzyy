@@ -25,7 +25,6 @@ app.use("/api", validateRoute);
 app.use("/bookings",bookingRoute);
 app.use("/users",userRoute);
 
-
 app.use('/api/emergencyDriver', emergencyDriverRoutes);
 
 // Mongoose Setup
@@ -43,5 +42,3 @@ mongoose.connect(process.env.MONGO_URL, {
 .catch((err) => {
   console.log(err + " did not connect!");
 });
-
-

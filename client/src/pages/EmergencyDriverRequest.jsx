@@ -5,6 +5,7 @@ import "../styles/EmergencyDriverRequest.scss";
 function EmergencyDriverRequest() {
   const [formData, setFormData] = useState({
     customerName: "",
+    email: "",
     phone: "",
     address: {
       flatNumber: "",
@@ -18,8 +19,9 @@ function EmergencyDriverRequest() {
     destination: "",
   });
 
-  const [success, setSuccess] = useState(false); // New state for success message
-  const [error, setError] = useState(false); // New state for error message
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false); // Added loading state for API requests
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -35,14 +37,25 @@ function EmergencyDriverRequest() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); // Start loading
+    setSuccess(false);
+    setError(false);
+
     try {
-      await axios.post("http://localhost:2305/api/emergencyDriver/request", formData, {
-        headers: { "Content-Type": "application/json" },
-      });
-      setSuccess(true); // Show success message
-      setError(false); // Hide error message
+      console.log("Submitting form data:", formData); // Debug log for submitted data
+      const response = await axios.post(
+        "http://localhost:2305/api/emergencyDriver/request",
+        formData,
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      console.log("API Response:", response.data); // Log the response
+      setSuccess(true);
+      setError(false);
       setFormData({
         customerName: "",
+        email: "",
         phone: "",
         address: {
           flatNumber: "",
@@ -54,10 +67,13 @@ function EmergencyDriverRequest() {
         preferredDriverGender: "Any",
         pickupLocation: "",
         destination: "",
-      }); // Clear form fields
+      });
     } catch (error) {
-      setError(true); // Show error message if the request fails
-      setSuccess(false); // Hide success message
+      console.error("Error submitting form:", error.response || error); // Detailed error logging
+      setError(true);
+      setSuccess(false);
+    } finally {
+      setLoading(false); // Stop loading
     }
   };
 
@@ -65,56 +81,103 @@ function EmergencyDriverRequest() {
     <div className="emergency-driver-request">
       <h1>Request Emergency Driver</h1>
 
-      {/* Success and error messages */}
-      {success && <p className="success-message">Driver requested successfully! Soon you will get your driver details</p>}
-      {error && <p className="error-message">Failed to request driver. Please try again.</p>}
+      {/* Success and Error Messages */}
+      {success && (
+        <p className="success-message">
+          Driver requested successfully! You will receive an email shortly.
+        </p>
+      )}
+      {error && (
+        <p className="error-message">
+          Failed to request a driver. Please check your input and try again.
+        </p>
+      )}
 
+      {/* Form */}
       <form onSubmit={handleSubmit} className="emergency-driver-request_form">
-        <div className="emergency-driver-request_field">
-          <label htmlFor="customerName">Name</label>
-          <input name="customerName" id="customerName" placeholder="Name" onChange={handleChange} required />
-        </div>
-        <div className="emergency-driver-request_field">
-          <label htmlFor="phone">Phone</label>
-          <input name="phone" id="phone" placeholder="Phone" onChange={handleChange} required />
-        </div>
-        <div className="emergency-driver-request_field">
-          <label htmlFor="flatNumber">Flat Number</label>
-          <input name="flatNumber" id="flatNumber" placeholder="Flat Number" onChange={handleChange} required />
-        </div>
-        <div className="emergency-driver-request_field">
-          <label htmlFor="area">Area</label>
-          <input name="area" id="area" placeholder="Area" onChange={handleChange} required />
-        </div>
-        <div className="emergency-driver-request_field">
-          <label htmlFor="city">City</label>
-          <input name="city" id="city" placeholder="City" onChange={handleChange} required />
-        </div>
-        <div className="emergency-driver-request_field">
-          <label htmlFor="state">State</label>
-          <input name="state" id="state" placeholder="State" onChange={handleChange} required />
-        </div>
-        <div className="emergency-driver-request_field">
-          <label htmlFor="pincode">Pincode</label>
-          <input name="pincode" id="pincode" placeholder="Pincode" onChange={handleChange} required />
-        </div>
-        <div className="emergency-driver-request_field">
-          <label htmlFor="preferredDriverGender">Preferred Driver Gender</label>
-          <select name="preferredDriverGender" id="preferredDriverGender" onChange={handleChange}>
-            <option value="Any">Any</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-          </select>
-        </div>
-        <div className="emergency-driver-request_field">
-          <label htmlFor="pickupLocation">Pickup Location</label>
-          <input name="pickupLocation" id="pickupLocation" placeholder="Pickup Location" onChange={handleChange} required />
-        </div>
-        <div className="emergency-driver-request_field">
-          <label htmlFor="destination">Destination</label>
-          <input name="destination" id="destination" placeholder="Destination" onChange={handleChange} />
-        </div>
-        <button type="submit" className="emergency-driver-request_submit">Request Driver</button>
+        <input
+          name="customerName"
+          placeholder="Name"
+          value={formData.customerName}
+          onChange={handleChange}
+          required
+        />
+        <input
+          name="email"
+          placeholder="Email"
+          value={formData.email}
+          onChange={handleChange}
+          required
+        />
+        <input
+          name="phone"
+          placeholder="Phone"
+          value={formData.phone}
+          onChange={handleChange}
+          required
+        />
+        <input
+          name="flatNumber"
+          placeholder="Flat Number"
+          value={formData.address.flatNumber}
+          onChange={handleChange}
+          required
+        />
+        <input
+          name="area"
+          placeholder="Area"
+          value={formData.address.area}
+          onChange={handleChange}
+          required
+        />
+        <input
+          name="city"
+          placeholder="City"
+          value={formData.address.city}
+          onChange={handleChange}
+          required
+        />
+        <input
+          name="state"
+          placeholder="State"
+          value={formData.address.state}
+          onChange={handleChange}
+          required
+        />
+        <input
+          name="pincode"
+          placeholder="Pincode"
+          value={formData.address.pincode}
+          onChange={handleChange}
+          required
+        />
+        <select
+          name="preferredDriverGender"
+          value={formData.preferredDriverGender}
+          onChange={handleChange}
+        >
+          <option value="Any">Any</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+        </select>
+        <input
+          name="pickupLocation"
+          placeholder="Pickup Location"
+          value={formData.pickupLocation}
+          onChange={handleChange}
+          required
+        />
+        <input
+          name="destination"
+          placeholder="Destination"
+          value={formData.destination}
+          onChange={handleChange}
+        />
+
+        {/* Submit Button */}
+        <button type="submit" disabled={loading}>
+          {loading ? "Requesting Driver..." : "Request Driver"}
+        </button>
       </form>
     </div>
   );
