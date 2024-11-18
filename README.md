@@ -1,41 +1,55 @@
-# 🚗 Vehicle Renting Platform
+# Vroomzyy
 
-Welcome to the **Vehicle Renting Platform**, a full-stack web application designed to make vehicle renting seamless and efficient. This platform enables users to explore various vehicle listings, make reservations, and manage their bookings with ease. Additionally, it provides vehicle owners with a comprehensive dashboard to manage listings and bookings.
+Vroomzyy is an innovative platform designed to provide on-demand emergency driver services. It enables customers to quickly request professional drivers and offers a seamless experience for both customers and drivers. The platform prioritizes efficiency, security, and scalability, leveraging modern technologies.
 
-## 📌 Features
+---
 
-- **Authentication**: Secure user signup and login using JWT and Bcrypt.
-- **User Roles**: Different roles for Admin, Customer, and Vehicle Owners.
-- **Listing Creation**: Vehicle owners can create and manage their listings.
-- **Booking System**: Users can book vehicles using a dynamic calendar.
-- **Search & Filters**: Advanced search and filtering options for vehicles.
-- **Wishlist Management**: Users can save their favorite vehicles.
-- **Photo Upload**: Upload and manage vehicle images directly in MongoDB.
-- **Property Feeds**: Fetch listings by category for easy browsing.
-- **Responsive Design**: Optimized for both mobile and desktop devices.
-- **Soft Skills Included**: Thoughtful design focusing on user experience and ease of use.
-- **Vehicle Maintenance & Servicing Module**: Streamlines vehicle servicing with separate Admin and Customer logins and automated receipt generation.
+## Features
 
-## 🛠️ Tech Stack
+- **Emergency Driver Requests**: Customers can request drivers with specified preferences (e.g., gender, location).
+- **Driver Matching Algorithm**: Efficiently matches customers with nearby drivers based on availability and preferences.
+- **Dynamic Pricing**: Calculates charges dynamically based on factors like time, location, and demand.
+- **Real-time Driver Tracking**: Allows customers to track drivers in real-time.
+- **Document Verification**: Uses OCR (Optical Character Recognition) to validate driver licenses and other documents.
+- **Drowsiness Detection**: Includes a driver drowsiness detection system powered by deep learning to ensure driver safety.
+- **Secure Payments**: Integration with payment gateways for secure transactions.
+- **Admin Dashboard**: Manage customer requests, drivers, and other platform operations efficiently.
 
-- **Frontend**: React, Redux, Sass (SCSS), Material UI, React Icons
-- **Backend**: Node.js, Express.js
-- **Database**: MongoDB, Mongoose, SQL for vehicle maintenance data management
-- **Authentication**: JWT, Bcrypt
-- **State Management**: Redux
-- **Styling**: Sass (SCSS), Material UI
+---
 
-## 🚀 How to Get Started
+## Tech Stack
+
+### Frontend
+- **React.js**: For building the user interface.
+- **Redux**: For state management.
+- **HTML5/CSS3**: For responsive design.
+
+### Backend
+- **Node.js**: Server-side runtime.
+- **Express.js**: For building RESTful APIs.
+- **Mongoose**: For interacting with MongoDB.
+
+### Database
+- **MongoDB Atlas**: A NoSQL database for scalable and flexible data management.
+
+### Other Technologies
+- **Mediapipe**: For face detection in drowsiness detection.
+- **TensorFlow**: For the driver drowsiness detection model.
+- **Docker**: For containerized deployment.
+- **Multer**: For file uploads (e.g., driver photos and documents).
+- **Stripe/Razorpay**: For secure payment integration.
+
+---
+
+## Installation
 
 ### Prerequisites
+- **Node.js** and **npm** installed
+- **MongoDB Atlas** or a local MongoDB instance
+- **Docker** (optional, for containerized deployment)
 
-- Node.js & npm
-- MongoDB
-- A cloud service for image storage (if using cloud storage for images)
-
-### Installation
-
+### Backend Setup
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/vehicle-renting-platform.git
-   cd vehicle-renting-platform
+   git clone https://github.com/yourusername/vroomzyy.git
+   cd vroomzyy/server
